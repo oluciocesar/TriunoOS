@@ -3,7 +3,8 @@ name: instalar
 description: >
   Instala o TriunoOS no negócio do usuário. Entrevista sobre empresa, tom de voz,
   foco atual e identidade visual, e preenche `_memoria/empresa.md`, `_memoria/preferencias.md`,
-  `_memoria/estrategia.md`, `identidade/design-guide.md` e adapta o `CLAUDE.md` conforme o perfil.
+  `_memoria/estrategia.md`, `identidade/design-guide.md`, monta o banco de imagens em
+  `identidade/banco-imagens/` e adapta o `CLAUDE.md` conforme o perfil.
   Use quando o usuário acabou de clonar o repositório e quer instalar o sistema, ou quando
   pedir explicitamente "rodar /instalar", "instalar o TriunoOS", "primeiro setup".
 ---
@@ -71,6 +72,7 @@ Fazer essas perguntas em ordem, esperando a resposta de cada uma antes de seguir
 **Sobre identidade visual:**
 9. "Tem identidade visual definida ou tá no zero? Se tem, me passa as cores principais e a fonte."
 10. "Tem logo? Se sim, joga o arquivo em `identidade/logo.png` (ou `.svg`) e me confirma."
+11. "Você tem um banco de fotos próprio do negócio? Penso em fotos profissionais suas (se você é a cara do negócio), fotos de produto, da equipe, da empresa, bastidores — qualquer imagem real que a gente possa usar nos materiais depois. Se tiver, o jeito mais fácil é **arrastar as imagens aqui no chat mesmo** que eu já salvo e organizo pra você. Se preferir colocar você mesmo, é só jogar os arquivos em `identidade/banco-imagens/`. Pode mandar quantas quiser — quanto mais, melhor."
 
 ---
 
@@ -95,6 +97,13 @@ Preencher com base nas perguntas 7-8. Estrutura:
 Se o usuário forneceu cores/fontes/logo (perguntas 9-10), preencher os campos correspondentes. Se não, deixar como está e avisar:
 > "Deixei o `identidade/design-guide.md` em branco. Sempre que você definir uma identidade visual, edita lá — as skills de carrossel, proposta e slide leem esse arquivo antes de criar qualquer visual."
 
+### `identidade/banco-imagens/` (pergunta 11)
+Se o usuário **mandou imagens no chat**: salvar cada uma em `identidade/banco-imagens/` renomeada com número sequencial na ordem em que chegaram (`1.jpg`, `2.png`...), mantendo a extensão original. A numeração continua do maior número já existente na pasta (nunca reaproveitar número). Pra cada imagem, **olhar o conteúdo e escrever uma linha no índice** do `README.md` da pasta (número + arquivo + descrição curta do que é). No final, avisar quantas entraram.
+
+Se o usuário disse que **vai colocar depois ou sozinho**: confirmar o caminho `identidade/banco-imagens/` e avisar que, quando ele arrastar as imagens lá (ou mandar no chat), é só pedir que você organiza a numeração e o índice.
+
+Se **não tiver banco**: seguir sem insistir. A pasta já existe pronta pra receber imagens quando surgirem.
+
 ### `CLAUDE.md`
 Pegar o template correspondente ao perfil escolhido na Fase 1 (`templates/perfis/claude-md-<perfil>.md`), adaptar com o nome do negócio e estrutura de pastas mencionada nas respostas, e sobrescrever o `CLAUDE.md` da raiz.
 
@@ -110,6 +119,7 @@ Mostrar pro usuário o que foi configurado:
 ✓ Tom de voz: _memoria/preferencias.md
 ✓ Foco atual: _memoria/estrategia.md
 ✓ Marca: identidade/design-guide.md  [preenchida | em branco — preencher depois]
+✓ Banco de imagens: identidade/banco-imagens/  [N imagens | vazio — adicionar depois]
 ✓ CLAUDE.md adaptado pro perfil [perfil]
 ```
 
@@ -165,3 +175,4 @@ Se o usuário quiser publicar o trabalho no GitHub, mencionar `/salvar`.
 - Não escrever "este arquivo será preenchido pelo /instalar" nos arquivos finais — esse aviso só existe nos placeholders, sai depois do /instalar
 - O setup deve durar 5-7 minutos no máximo. Se o usuário estiver enrolando numa pergunta, registra o que tem e segue
 - Não fazer perguntas extras além das listadas acima sem motivo claro
+- Banco de imagens: renomear as fotos sempre em ordem numérica, continuando do maior número já existente, e descrever cada uma no índice do `README.md` da pasta

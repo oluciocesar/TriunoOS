@@ -3,7 +3,19 @@
     "allow": [
       "Bash(git init *)",
       "Bash(git branch *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git config *)",
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "Bash(awk -F/ '{print $1}')",
+      "Bash(grep -E \"^\\\\.claude/|^\\\\.gitignore$\")",
+      "Bash(git push *)",
+      "Bash(gh api *)",
+      "Edit(/.claude/skills/instalar/**)",
+      "Edit(/.claude/skills/carrossel/**)",
+      "Bash(echo \"name: $\\(git config user.name\\)\")",
+      "Bash(echo \"email: $\\(git config user.email\\)\")",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

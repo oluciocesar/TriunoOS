@@ -3,7 +3,7 @@ name: carrossel
 description: >
   Cria carrosséis e posts visuais pra Instagram, TikTok, LinkedIn com a identidade visual da marca.
   Gera HTML estilizado + renderiza em PNG 1080x1350 via Playwright, com legenda pronta no final.
-  Suporta carrossel texto puro, carrossel com foto IA (gerada via OpenAI) e post único.
+  Suporta carrossel texto puro, carrossel com foto (real do banco de imagens do negócio ou gerada por IA) e post único.
   Use quando o usuário pedir "carrossel", "post", "conteúdo pro instagram", "criar imagem",
   "gerar foto", "post educativo", ou /carrossel.
 ---
@@ -17,8 +17,9 @@ Skill central de criação de conteúdo visual. Pega um tema → entrega HTMLs e
 - **Identidade visual:** `identidade/design-guide.md` — LER ANTES de criar qualquer visual
 - **Contexto do negócio:** `_memoria/empresa.md`
 - **Tom de voz:** `_memoria/preferencias.md`
+- **Banco de imagens do negócio:** `identidade/banco-imagens/` — fotos reais próprias. **CONSULTAR ANTES** de gerar qualquer foto por IA (ver `README.md` da pasta pro índice)
 - **Playwright:** pra renderizar HTML em PNG (`npx playwright screenshot` ou via `render.js`)
-- **OpenAI API (opcional):** pra gerar fotos realistas — só se o cliente tiver chave configurada
+- **OpenAI API (opcional):** pra gerar fotos realistas — só quando o banco não tem imagem adequada e há chave configurada
 - **Outputs vão em:** `marketing/conteudo/<tipo>-<tema>-<YYYY-MM-DD>/`
 
 ---
@@ -36,7 +37,7 @@ Ao receber um pedido, identificar qual tipo se encaixa:
 - **Quando usar:** apresentação visual, conteúdo aspiracional, capa com personagem
 - **Formato:** 1080x1350 (4:5)
 - **Estilo:** foto como capa com gradient overlay + slides internos no padrão alternado
-- **Foto:** pode ser IA (gerada por OpenAI) ou real (passada pelo usuário)
+- **Foto:** priorizar foto **real do banco** (`identidade/banco-imagens/`); só usar IA (gerada por OpenAI) quando o banco não tiver imagem adequada
 
 ### 3. POST ÚNICO
 - **Quando usar:** frase de impacto, dado/estatística, depoimento, bastidores
@@ -158,9 +159,22 @@ Escrever o conteúdo seguindo as regras de tom:
 
 **CHECKPOINT:** Mostrar o texto completo. Esperar aprovação antes do visual.
 
-### Passo 3 — Gerar fotos (se tipo 2)
+### Passo 3 — Fotos (se tipo 2 ou post com imagem)
 
-Só se o usuário pediu carrossel com foto IA.
+Só quando o conteúdo pede foto.
+
+#### 3a. SEMPRE consultar o banco de imagens primeiro
+
+Antes de pensar em IA, olhar o acervo real do negócio:
+
+1. Ler o índice em `identidade/banco-imagens/README.md` pra ver o que tem no banco. Se o índice estiver vazio mas a pasta tiver imagens sem descrição, abrir as imagens pra entender o conteúdo (e aproveitar pra preencher o índice).
+2. Se houver foto(s) real(is) que combina(m) com o tema/slides, **priorizar elas**. Propor ao usuário quais imagens do banco encaixam em quais slides (ex: "usei a `3.jpg` na capa e a `7.jpg` no slide do produto").
+3. Copiar as imagens escolhidas do banco pra pasta do conteúdo (ex: `foto-capa.jpg`) e referenciar localmente no HTML — igual ao fluxo de foto IA. Não referenciar o banco por caminho relativo (evita quebra no render).
+4. **Só partir pra IA (passo 3b) se:** o banco estiver vazio, OU nenhuma imagem servir pro tema, OU o usuário pedir explicitamente foto gerada por IA.
+
+**CHECKPOINT:** Se usou foto do banco, mostrar quais e seguir. Foto real do banco tem prioridade sobre foto gerada.
+
+#### 3b. Gerar por IA (só nos casos acima)
 
 1. Montar prompt em inglês (a API funciona melhor em inglês)
 2. Padrão genérico de prompt:
@@ -217,7 +231,7 @@ NODE_PATH="<pasta-com-node_modules>/node_modules" node render.js
 ```
 marketing/conteudo/<tipo>-<tema>-<YYYY-MM-DD>/
   texto.md              ← texto aprovado + legenda
-  foto-<nome>.png       ← fotos geradas por IA (se houver)
+  foto-<nome>.png       ← fotos usadas (copiadas do banco ou geradas por IA)
   carrossel.html
   render.js
   instagram/
@@ -245,6 +259,7 @@ Se sim, chamar `/publicar-tema` com o mesmo tema.
 - Linguagem segue `_memoria/preferencias.md` estritamente
 - Sempre considerar a sequência de capa no feed antes de definir capa nova
 - Sempre gerar legenda automaticamente ao final, salvando em `legenda.md`
+- Fotos: SEMPRE consultar `identidade/banco-imagens/` antes de gerar por IA. Foto real do banco tem prioridade sobre foto gerada
 - Fotos IA: sempre pedir aprovação antes de usar no carrossel
 - Fotos IA: prompts em inglês
 - Fotos IA: nunca gerar fotos de pessoas/rostos identificáveis
