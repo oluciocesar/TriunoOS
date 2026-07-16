@@ -23,11 +23,12 @@ sugerir prioridades, formatos ou abordagens, considerar o foco atual
 descrito em `estrategia.md`.
 
 Pra qualquer tarefa visual (carrossel, post, landing page), consultar
-`identidade/design-guide.md` como referência de estilo. Quando a peça
-pedir foto, consultar antes o banco de imagens em
-`identidade/banco-imagens/` (índice no `README.md` da pasta) e priorizar
-foto real do negócio; só recorrer a imagem gerada por IA quando o banco
-não tiver algo adequado.
+`identidade/design-guide.md` como referência de estilo. Quando um slide
+ou peça pedir imagem, escolher a modalidade nesta ordem: **banco de
+imagens do negócio** (`identidade/banco-imagens/`, índice no `README.md`)
+→ **print** (screenshot de tela/dado real) → **SVG** (desenho próprio)
+→ **IA** (geração generativa, última opção, passa por gate de custo). IA
+nunca é o plano A; `none` (peça sem imagem) é saída válida.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas
 usar o contexto naturalmente.
