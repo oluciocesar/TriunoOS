@@ -4,6 +4,7 @@ description: >
   Cria carrosséis e posts visuais pra Instagram, TikTok, LinkedIn com a identidade visual da marca.
   Gera HTML estilizado + renderiza em PNG 1080x1350 via Playwright, com legenda pronta no final.
   Suporta carrossel texto puro, carrossel com imagem (escolhida na ordem banco de imagens > print > SVG > IA) e post único.
+  No início de um carrossel, oferece dois modos de conteúdo: padrão (rápido, sem pesquisa) ou roteiro aprofundado via /roteiro-mac (briefing + pesquisa web).
   Use quando o usuário pedir "carrossel", "post", "conteúdo pro instagram", "criar imagem",
   "gerar foto", "post educativo", ou /carrossel.
 ---
@@ -17,6 +18,7 @@ Skill central de criação de conteúdo visual. Pega um tema → entrega HTMLs e
 - **Identidade visual:** `identidade/design-guide.md` — LER ANTES de criar qualquer visual
 - **Contexto do negócio:** `_memoria/empresa.md`
 - **Tom de voz:** `_memoria/preferencias.md`
+- **Roteiro aprofundado (opcional):** `/roteiro-mac` — via de conteúdo mais densa (briefing + pesquisa web), oferecida na bifurcação do Passo 1.5. Ela escreve o texto; o visual continua sendo montado aqui
 - **Ordem de imagem por slide:** `Banco > Print > SVG > IA` (+ `none`) — ver Passo 3. IA nunca é plano A
 - **Banco de imagens do negócio:** `identidade/banco-imagens/` — fotos reais próprias, 1ª prioridade (ver `README.md` da pasta pro índice)
 - **Playwright:** pra renderizar HTML em PNG (`render.js`) **e** pra capturar print de URL (modalidade Print)
@@ -145,7 +147,28 @@ Ao terminar de renderizar os PNGs, gerar **automaticamente** a legenda do post e
 3. Identificar o tipo de conteúdo (1, 2 ou 3)
 4. Definir o tema e o ângulo
 
+### Passo 1.5 — Como criar o conteúdo (bifurcação, só pra carrossel)
+
+**Só quando o conteúdo é carrossel (tipos 1 e 2, múltiplos slides).** Pra "post único" (tipo 3), pular esta pergunta e seguir direto.
+
+**Guarda anti-loop:** se o texto/roteiro já veio pronto (handoff do `/roteiro-mac`, ou colado pelo usuário), NÃO perguntar a bifurcação e NÃO rodar o Passo 2 — ir direto pro Passo 4 (visual).
+
+Se for um carrossel novo (texto ainda não existe), perguntar exatamente:
+
+> "Antes de começar, como você quer criar o conteúdo do seu carrossel?
+>
+> **1. Padrão (rápido)** — uso o tema, a memória do teu negócio e meu conhecimento. Menos perguntas, sai rápido.
+>
+> **2. Roteiro aprofundado** — mais perguntas, mais direcionamento e eu farei uma pesquisa na web para trazer dados reais e atuais sobre o tema (ou a fonte que você mandar). Demora mais, mas o conteúdo sai mais denso e direcionado.
+>
+> Qual?"
+
+- **Se 1 (Padrão):** seguir pro Passo 2 (fluxo atual, sem pesquisa — tema + memória + conhecimento).
+- **Se 2 (Roteiro aprofundado):** chamar a skill `/roteiro-mac`. Ela conduz o briefing, a pesquisa e escreve o roteiro completo. Ela **só libera pro visual depois que o usuário aprovar o roteiro E a quantidade de slides** (checkpoints da Fase 4/plano e Fase 5-7/roteiro da própria skill) — mesma lógica do checkpoint de aprovação do fluxo padrão. Quando o roteiro aprovado voltar, **pular o Passo 2** (texto já pronto) e ir direto pro Passo 4 (visual).
+
 ### Passo 2 — Texto
+
+**Pular este passo se o texto já veio pronto** (via `/roteiro-mac` ou colado pelo usuário) — nesse caso ir direto pro Passo 4.
 
 Escrever o conteúdo seguindo as regras de tom:
 
@@ -244,6 +267,8 @@ Se não tiver o script ainda, configurar `OPENAI_API_KEY` no `.env` e criar no p
 **CHECKPOINT:** Foto aprovada → seguir. Se não, ajustar (CSS ou prompt) e, se for regerar, passar pelo gate de custo de novo.
 
 ### Passo 4 — Criar visuais (HTML + PNG)
+
+**Se o texto veio do `/roteiro-mac`:** manter o texto do roteiro **integral no slide** — NÃO condensar, NÃO cortar pra legenda. O roteiro já trabalha com 30-65 palavras por slide justamente pra caber; o que muda é o visual. **Adaptar a arte** pra acomodar esse texto: usar um layout mais texto-forward, com a tipografia numa escala que comporte 30-65 palavras com respiro (não o H2 gigante que só serve pra frase curta). Manter a identidade (paleta, logo, contador, régua) — muda a escala do texto, não a marca. A legenda continua sendo gerada à parte, não é depósito do que sobrou do slide.
 
 1. Criar **um único `carrossel.html`** com TODOS os slides como `<div class="slide">` dentro do mesmo arquivo. Inline CSS, Google Fonts como única dependência externa. Aplicar:
    - Cores e tipografia de `identidade/design-guide.md`

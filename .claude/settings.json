@@ -15,7 +15,8 @@
       "Edit(/.claude/skills/carrossel/**)",
       "Bash(echo \"name: $\\(git config user.name\\)\")",
       "Bash(echo \"email: $\\(git config user.email\\)\")",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Edit(/.claude/skills/roteiro-mac/**)"
     ]
   }
 }
